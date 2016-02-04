@@ -127,7 +127,7 @@ class Application extends Component {
     super(props);
     // 初始状态
     this.state = {
-      progress: false,
+      progress: false
     };
   }
 
@@ -244,13 +244,13 @@ class Application extends Component {
 
           <TabRoute name="tabBar" barTint="#FFFFFF" tint="#32DEAF">
             <Route name="nearby" component={Nearby} title="身边"
-                   hideNavBar={hideNavBar}
-                   tabItem={{icon: assets.customer, title: '身边', }}/>
+                   tabItem={{icon: assets.customer, title: '身边', }}
+                   hideNavBar={hideNavBar}/>
             <Route name="wifi" component={Wifi} title="WIFI"
                    tabItem={{icon: assets.training, title: 'WIFI', }}
                    hideNavBar={hideNavBar}/>
             <Route name="hot" component={Hot} title="围观"
-                   tabItem={{icon: assets.home, title: '围观', }}
+                   tabItem={{icon: assets.home, title: '围观', default: true}}
                    hideNavBar={hideNavBar}/>
             <Route name="message" component={Message} title="消息"
                    tabItem={{icon: assets.spread, title: '消息', }}

@@ -1,4 +1,4 @@
-import Tabs from 'react-native-tabs';
+import Tabs from './tabs';
 import React, { Component, Image, StyleSheet, Text, View } from 'react-native';
 
 const onSelect = props => el => {
