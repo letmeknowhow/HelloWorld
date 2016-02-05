@@ -1,5 +1,8 @@
 /**
- *
+ *  Class: Mine
+ *  Author: Niu Xiaoyu
+ *  Date: 16/2/3.
+ *  Description: 我的
  */
 
 import React from 'react-native';
@@ -73,7 +76,7 @@ const styles = StyleSheet.create({
 });
 
 
-class Customer extends Component {
+export default class Mine extends Component {
   // 构造
   constructor(props) {
     super(props);
@@ -148,6 +151,3 @@ class Customer extends Component {
   }
 
 }
-
-
-export default Customer;

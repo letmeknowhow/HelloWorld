@@ -1,8 +1,8 @@
 /**
- *  Class: Nearby
+ *  Class: Publish
  *  Author: Niu Xiaoyu
  *  Date: 16/2/3.
- *  Description: 身边
+ *  Description: 发布
  */
 import React from 'react-native';
 
@@ -33,7 +33,7 @@ const styles = StyleSheet.create(
   }
 );
 
-class Nearby extends Component {
+export default class Publish extends Component {
   // 默认属性
   static defaultProps = {};
 
@@ -56,5 +56,3 @@ class Nearby extends Component {
   }
 
 }
-
-export default Nearby;

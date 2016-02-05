@@ -14,13 +14,12 @@ import Modal from '../baseComponents/ModalBox';
 
 import LoadSpinner from '../components/LoadSpinner';
 /** 主tab 四页*/
-import Hot from '../components/Hot';
-import Nearby from '../components/Nearby';
-import Profile from '../components/Profile';
+import Home from '../components/home/Home';
+import Publish from '../components/Publish';
 import Message from '../components/Message';
-import Wifi from '../components/Wifi';
+import Mine from '../components/Mine';
 
-
+import CommodityDetail from '../components/CommodityDetail';
 //import WeChatTest from '../components/WeChatTest';
 //import Videos from '../components/Videos';
 
@@ -86,9 +85,9 @@ const defaultSchema = {
 const assets = {
   'logo': require('../../assets/logo.png'),
   'home': require('../../assets/icons/Home.png'),
-  'customer': require('../../assets/icons/Customer.png'),
-  'training': require('../../assets/icons/Training.png'),
-  'spread': require('../../assets/icons/Spread.png'),
+  'publish': require('../../assets/icons/training.png'),
+  'message': require('../../assets/icons/Spread.png'),
+  'mine': require('../../assets/icons/Customer.png'),
 };
 
 let hideNavBar = Platform.OS !== 'ios';
@@ -206,7 +205,7 @@ class Application extends Component {
   shouldComponentUpdate(nextProps, nextState) {
     if (nextProps.auth.state !== this.props.auth.state) {
       if (nextProps.auth.state === LOGGED_IN_STATE) {
-        this.props.actions.replace({tabBarName: 'tabBar', name: 'hot', data: {}});
+        this.props.actions.replace({tabBarName: 'tabBar', name: 'home', data: {}});
       } else if (nextProps.auth.state === LOGGED_OUT_STATE) {
         this.props.actions.replace({name: 'signIn', data: {}});
       } else if (nextProps.auth.state === 'sigin00') {
@@ -229,7 +228,7 @@ class Application extends Component {
   render() {
     return (
       <View style={{flex: 1}}>
-        <Router {...this.props} assets={assets} initial="loading">
+        <Router {...this.props} assets={assets} initial="home">
           <Schema name="default" {...defaultSchema} />
 
           <Route name="loading" component={LoadSpinner} type="reset"
@@ -242,21 +241,22 @@ class Application extends Component {
                  hideNavBar={true}
                  hideFooter={true}/>
 
+          <Route name="commodityDetail" component={CommodityDetail} title="详情"
+                 hideNavBar={hideNavBar}
+                 hideFooter={true}/>
+
           <TabRoute name="tabBar" barTint="#FFFFFF" tint="#32DEAF">
-            <Route name="nearby" component={Nearby} title="身边"
-                   tabItem={{icon: assets.customer, title: '身边', }}
-                   hideNavBar={hideNavBar}/>
-            <Route name="wifi" component={Wifi} title="WIFI"
-                   tabItem={{icon: assets.training, title: 'WIFI', }}
-                   hideNavBar={hideNavBar}/>
-            <Route name="hot" component={Hot} title="围观"
-                   tabItem={{icon: assets.home, title: '围观', default: true}}
+            <Route name="home" component={Home} title="首页"
+                   tabItem={{icon: assets.home, title: '首页', default: true}}
+                   hideNavBar={true}/>
+            <Route name="publish" component={Publish} title="发布"
+                   tabItem={{icon: assets.publish, title: '发布', }}
                    hideNavBar={hideNavBar}/>
             <Route name="message" component={Message} title="消息"
-                   tabItem={{icon: assets.spread, title: '消息', }}
+                   tabItem={{icon: assets.message, title: '消息', }}
                    hideNavBar={hideNavBar}/>
-            <Route name="profile" component={Profile} title="我"
-                   tabItem={{icon: assets.spread, title: '我', }}
+            <Route name="mine" component={Mine} title="我的"
+                   tabItem={{icon: assets.mine, title: '我的', }}
                    hideNavBar={hideNavBar}/>
           </TabRoute>
         </Router>

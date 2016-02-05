@@ -6,15 +6,16 @@
  */
 import React from 'react-native';
 const {StyleSheet, Text, View, Component, TouchableOpacity, Image } = React;
-
+const category = require('../../../assets/icons/category.png');
 
 const styles = StyleSheet.create({
-  container: {
-    paddingHorizontal: 10
+  page: {
+    flex: 1
   },
-  button: {
-    height: 30,
-    width: 30
+  container: {
+    alignItems: 'center',
+    flexDirection: 'row',
+    justifyContent: 'center'
   }
 });
 
@@ -31,11 +32,15 @@ class Header extends Component {
   render() {
     return (
       <View style={[this.props.style, styles.container]}>
-        <TouchableOpacity style={styles.button}>
-          <Image source={require('../../../assets/Extension.png')} />
-          <Text style={{fontSize: 8, color: '#FFF'}}>扫一扫</Text>
-        </TouchableOpacity>
-        <Text>Header</Text>
+        <View key="1" style={[styles.page, {paddingTop: 15}]} />
+        <View key="2" style={[styles.page, {paddingTop: 15, alignItems: 'center', justifyContent: 'center'}]}>
+          <Text style={{fontSize: 25, color: '#000', fontWeight: 'bold'}}>闲鱼</Text>
+        </View>
+        <View key="3" style={[styles.page, {paddingTop: 15, paddingRight: 10, alignItems: 'flex-end', justifyContent: 'flex-end'}]}>
+          <TouchableOpacity>
+            <Image source={category} />
+          </TouchableOpacity>
+        </View>
       </View>
     );
   }

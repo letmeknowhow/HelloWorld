@@ -6,71 +6,60 @@ const { Component, Dimensions, View, Image, TouchableOpacity, InteractionManager
 
 const deviceWidth = Dimensions.get('window').width;
 
-let dataSource = new ViewPager.DataSource({
-  pageHasChanged: (p1, p2) => p1.newsID !== p2.newsID,
+const dataSource = new ViewPager.DataSource({
+  pageHasChanged: (p1, p2) => p1.id !== p2.id,
 });
-const mockData = [
-  require('./../../assets/banner/1.jpg'),
-  require('./../../assets/banner/2.jpg'),
-  require('./../../assets/banner/3.jpg')
-];
+
 class Banner extends Component {
 
   // 构造
   constructor(props) {
     super(props);
-    
     // 初始状态
     this.state = {
       dataSource: dataSource.cloneWithPages([]),
-      isLoaded: false,
     };
   }
 
   componentDidMount() {
-    InteractionManager.runAfterInteractions(() => {
-      //WebAPI.banners({
-      //    version: 1,
-      //    pageNumber: 0,
-      //    bOpened: true,
-      //    pageSize: 5
-      //  })
-      //  .then(data => {
-      //    const IMGS = [];
-      //    data.json.list.map(item => {
-      //      IMGS.push({
-      //        url: global.imgBaseURL + '/' + item.sTitleImg,
-      //        newsID: item.iArticleId || '-1'
-      //      });
-      //    });
-      //    this.setState({
-      //      dataSource: dataSource.cloneWithPages(IMGS),
-      //      isLoaded: true,
-      //      isLoop: IMGS.length > 1
-      //    });
-      //
-      //  });
+    //InteractionManager.runAfterInteractions(() => {
+    //  WebAPI.banners({
+    //      version: 1,
+    //      pageNumber: 0,
+    //      bOpened: true,
+    //      pageSize: 5
+    //    })
+    //    .then(data => {
+    //      const IMGS = [];
+    //      data.json.list.map(item => {
+    //        IMGS.push({
+    //          url: global.imgBaseURL + '/' + item.sTitleImg,
+    //          newsID: item.iArticleId || '-1'
+    //        });
+    //      });
+    //      this.setState({
+    //        dataSource: dataSource.cloneWithPages(IMGS),
+    //        isLoop: IMGS.length > 1
+    //      });
+    //
+    //    });
+    //});
+  }
+
+  componentWillReceiveProps(next) {
+    if(next.source && next.source.length > 0) {
       this.setState({
-        dataSource: dataSource.cloneWithPages(mockData),
-        isLoaded: true,
-        isLoop: true
+        dataSource: dataSource.cloneWithPages(next.source),
+        isLoop: next.source.length > 1
       });
-    });
-    
+    }
   }
 
   _renderPage(data, pageID) {
-    //return (
-    //  <TouchableOpacity onPress={this.props.actions.routes.newsDetail(data.newsID)}>
-    //    <Image
-    //      source={{uri: data.url}}
-    //      style={{width: deviceWidth, height:140, resizeMode: Image.resizeMode.cover}}/>
-    //  </TouchableOpacity>
-    //);
     return (
-      <TouchableOpacity onPress={this.props.actions.routes.newsDetail(data.newsID)}>
+      <TouchableOpacity onPress={this.props.actions.routes.commodityDetail(data.id)}>
         <Image
-          source={data}
+          source={data.url}
           style={{width: deviceWidth, height:140, resizeMode: Image.resizeMode.cover}}/>
       </TouchableOpacity>
     );

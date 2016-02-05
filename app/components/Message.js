@@ -1,136 +1,176 @@
 /**
  *  Class: Message
  *  Author: Niu Xiaoyu
- *  Date: 16/2/3.
+ *  Date: 16/2/5.
  *  Description: 消息
  */
 import React from 'react-native';
-import Panel from '../baseComponents/Panel';
+import Button from '../baseComponents/Button';
 
-const { Component, View, Text, ScrollView, Switch, StyleSheet, PropTypes } = React;
+const { Component, View, Text, TextInput, PixelRatio, TouchableOpacity, StyleSheet, ListView, Alert } = React;
+
+import Animatable from 'react-native-animatable';
+
+
+import WebAPI from '../libs/WebAPI';
 
 const styles = StyleSheet.create({
-  bar: {
+  input: {
+    flex: 1,
+    borderColor: 'gray',
+    backgroundColor: 'white',
+    padding: 10,
+    borderWidth: 1 / PixelRatio.get()
+  },
+  sectionHeader: {
     backgroundColor: 'white',
     height: 50,
-    marginBottom: 10,
+    marginBottom: 15,
     alignItems: 'center',
-    justifyContent: 'space-between',
     flexDirection: 'row',
     paddingHorizontal: 5
   },
-  barText: {fontSize: 18, color: '#666'},
-  barSwitch: {width: 50}
+  sectionHeaderText: {
+    fontSize: 18, color: '#666'
+  },
+  sectionHeaderDateTime: {
+    fontSize: 12, color: '#ccc'
+  },
+
+  sectionContent: {
+    padding: 10,
+  },
+
+  col3: {
+    flex: 3,
+  },
+  col1: {
+    flex: 1
+  },
+  subBtn: {
+    marginBottom: 0, 
+    borderWidth: 0, 
+    height: 40, 
+    marginTop: 20
+  },
+  subBtnView:{
+    backgroundColor: 'red', 
+    height: 40, 
+    borderRadius: 8, 
+    alignSelf: 'stretch', 
+    marginHorizontal: 10
+  },
+  subBtnText: {
+    marginTop: 10, 
+    alignSelf: 'center', 
+    color: 'white'
+  }
 });
-
-class Message extends Component {
-
-  // 属性类型
-  static propTypes = {
-    actions: PropTypes.object,
-    wealthMessage: PropTypes.object
-  };
-  
+let dataSource = new ListView.DataSource({
+  rowHasChanged: (p1, p2) => p1 !== p2,
+});
+export default class Message extends Component {
   // 构造
   constructor(props) {
     super(props);
     // 初始状态
     this.state = {
-      s1: props.wealthMessage.registerOpen ? true : false,
-      s2: props.wealthMessage.tradeOpen ? true : false
+      mockData: dataSource.cloneWithRows([]),
+      sMsgContent: '',
     };
-
-    this.handUpdateSet = this.handUpdateSet.bind(this);
-    this.handleRender = this.handleRender.bind(this);
   }
 
   componentDidMount() {
-    this.props.actions.wealthMessages({
+    WebAPI.messageBoards({
       version: 1,
       pageNumber: 0,
-      pageSize: 10
-    });
-    this.props.actions.getSetWealthMessages();
-  }
-
-  componentWillReceiveProps(nextProps) {
-    this.setState({
-      s1: nextProps.wealthMessage.registerOpen ? true : false,
-      s2: nextProps.wealthMessage.tradeOpen ? true : false
-    });
-  }
-  // 修改用户的状态
-  handUpdateSet() {
-    this.props.actions.setWealthMessages({
-      version: '1',
-      registerMessageOpen: this.state.s1 ? 1 : 0,
-      tradeMessageOpen: this.state.s2 ? 1 : 0
+      pageSize: 300
+    })
+    .then(data => {
+      console.log('0000000000000');
+      console.log(data.json)
+      this.setState({
+        mockData: dataSource.cloneWithRows(data.json.list),
+      });
     });
   }
 
-  // 修改一条消息的 是否已经读过 的状态
-  handleRender(id) {
-    let data = {
-      version: 1,
-      bArrive: true,
-      bRead: true
-    };
-    this.props.actions.weMessageLogs(id, data);
+  renderItem() {
+    return this.state.mockData.map((item, index) => {
+      return (
+        <View key={index} style={styles.sectionHeader}>
+          <View style={styles.col3}>
+            <Text style={[styles.sectionHeaderText, {color: '#000'}]}>{item.sMsgContent}</Text>
+          </View>
+          <View style={styles.col2}>
+            <Text style={styles.sectionHeaderDateTime}>{item.dtMsgTime}</Text>
+          </View>
+        </View>
+      );
+    });
+  }
+  
+  _submit() {
+    if(this.state.sMsgContent !== ''){
+      WebAPI.updateMessageBoards({
+        version: 1,
+        sMsgContent: this.state.sMsgContent,
+        iRootMsgId: 0
+      })
+      .then(data => {
+          //Alert.alert(data.json.message);
+          this.componentDidMount();
+          this.setState({sMsgContent: ''});
+      });
+    }
   }
 
+  _renderRow(data,sectionID,rowId) {
+    const { actions } = this.props;
+    return(
+      <TouchableOpacity style={styles.sectionHeader} onPress={actions.routes.feedbackMessage([data,rowId])}>
+        <View style={styles.col3}>
+          <Text style={[styles.sectionHeaderText, {color: '#000'}]}>{data.sMsgContent}</Text>
+        </View>
+        <View style={styles.col2}>
+          <Text style={styles.sectionHeaderDateTime}>{data.dtMsgTime}</Text>
+        </View>
+      </TouchableOpacity>
+    );
+    
+  }
+  
   // 渲染
   render() {
-
-    let panels = [];
-    for (let i = 0; i < this.props.wealthMessage.list.length; i++) {
-      let list = this.props.wealthMessage.list[i];
-      let panel = {
-        mid: list.iWeMessageId,
-        title: list.msgTitle,
-        content: list.msgContent,
-        isRead: list.isRead,
-        time: list.createTime,
-        handleRender: this.handleRender
-      };
-      panels.push(<Panel key={i} { ...panel }/>);
-    }
     return (
-      <View style={{backgroundColor: '#efefef', flex: 1}}>
-        <View style={styles.bar}>
-          <Text style={styles.barText}>
-            客户投资提醒
+      <View style={[{flex: 1, backgroundColor: '#efefef'}]}>
+        <View style={{padding: 10}}>
+          <TextInput
+            style={[styles.input, {height: 120}]}
+            placeholder={'请输入您的反馈信息'}
+            numberOfLines = {4}
+            multiline={true}
+            maxLength={300}
+            onChangeText={(text) => this.setState({sMsgContent: text})}
+            value={this.state.sMsgContent}
+          />
+        </View>
+        <Button style={styles.subBtn} onPress={this._submit.bind(this)}>
+          <View style={styles.subBtnView}>
+            <Text style={styles.subBtnText}>提交</Text>
+          </View>
+        </Button>
+
+        <View style={{padding: 10}}>
+          <Text>
+            我的问题
           </Text>
-          <Switch style={styles.barSwitch}
-                  onValueChange={ ()=> {
-                    this.setState({s1: !this.state.s1});
-                    this.handUpdateSet();
-                  } }
-                  value={this.state.s1}/>
         </View>
-
-        <View style={styles.bar}>
-          <Text style={styles.barText}>
-            客户注册提醒
-          </Text>
-          <Switch style={styles.barSwitch}
-                  onValueChange={ ()=> {
-                    this.setState({s2: !this.state.s2});
-                    this.handUpdateSet();
-                  } }
-                  value={this.state.s2}/>
+        <View style={{padding: 10, flex: 1}}>
+          <ListView dataSource={this.state.mockData} renderRow={this._renderRow.bind(this)}  />
         </View>
-
-        <View
-          style={{flex: 1, /*backgroundColor: 'red', borderWidth: 1, borderColor: 'green'*/}}>
-          <ScrollView>
-            {panels}
-          </ScrollView>
-        </View>
-
       </View>
     );
   }
 
 }
-// onValueChange={(e)=>this.setState({s2:!this.state.s2})}
-export default Message;
