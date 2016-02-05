@@ -81,18 +81,18 @@ export default class Message extends Component {
   }
 
   componentDidMount() {
-    WebAPI.messageBoards({
-      version: 1,
-      pageNumber: 0,
-      pageSize: 300
-    })
-    .then(data => {
-      console.log('0000000000000');
-      console.log(data.json)
-      this.setState({
-        mockData: dataSource.cloneWithRows(data.json.list),
-      });
-    });
+    //WebAPI.messageBoards({
+    //  version: 1,
+    //  pageNumber: 0,
+    //  pageSize: 300
+    //})
+    //.then(data => {
+    //  console.log('0000000000000');
+    //  console.log(data.json)
+    //  this.setState({
+    //    mockData: dataSource.cloneWithRows(data.json.list),
+    //  });
+    //});
   }
 
   renderItem() {

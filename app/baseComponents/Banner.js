@@ -22,31 +22,18 @@ class Banner extends Component {
   }
 
   componentDidMount() {
-    //InteractionManager.runAfterInteractions(() => {
-    //  WebAPI.banners({
-    //      version: 1,
-    //      pageNumber: 0,
-    //      bOpened: true,
-    //      pageSize: 5
-    //    })
-    //    .then(data => {
-    //      const IMGS = [];
-    //      data.json.list.map(item => {
-    //        IMGS.push({
-    //          url: global.imgBaseURL + '/' + item.sTitleImg,
-    //          newsID: item.iArticleId || '-1'
-    //        });
-    //      });
-    //      this.setState({
-    //        dataSource: dataSource.cloneWithPages(IMGS),
-    //        isLoop: IMGS.length > 1
-    //      });
-    //
-    //    });
-    //});
+    InteractionManager.runAfterInteractions(() => {
+      if(this.props.source && this.props.source.length > 0) {
+        this.setState({
+          dataSource: dataSource.cloneWithPages(this.props.source),
+          isLoop: this.props.source.length > 1
+        });
+      }
+    });
   }
 
   componentWillReceiveProps(next) {
+    console.log('componentWillReceiveProps--banner');
     if(next.source && next.source.length > 0) {
       this.setState({
         dataSource: dataSource.cloneWithPages(next.source),

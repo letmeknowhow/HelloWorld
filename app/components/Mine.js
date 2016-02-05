@@ -119,11 +119,11 @@ export default class Mine extends Component {
                 <Text>{this.state.sSeatCode}</Text>
               </View>
               <View style={styles.cardItem}>
-                <Text>所属财富机构:</Text>
+                <Text>注册地点:</Text>
                 <Text>{this.state.sOrgName}</Text>
               </View>
               <View style={styles.cardItem}>
-                <Text>成为财富管理人时间:</Text>
+                <Text>注册时间:</Text>
                 <Text>{this.state.dtCreateTime}</Text>
               </View>
               <View style={[styles.cardItem, {borderBottomWidth: 0, backgroundColor: '#e32936', borderTopWidth: 1, borderTopColor: '#fff' }]}>

@@ -77,9 +77,9 @@ class NavBarBase extends Component {
       <NavigationBar
         leftButton={leftButton(this.props, this.transitioning)}
         backFunc={this.props.actions.pop}
-        actionFunc={this.props.actions.deleteSessionToken}
+        //actionFunc={this.props.actions.deleteSessionToken}
         backIconHidden = {this.props.router.routes.length < 2}
-        actionName = {'退出'}
+        actionName = {'帮助'}
         statusBar={statusBar(this.props)}
         barTintColor={'#39444F'}
         actionTextColor={'white'}

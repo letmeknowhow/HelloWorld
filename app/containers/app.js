@@ -21,7 +21,7 @@ import Mine from '../components/Mine';
 
 import CommodityDetail from '../components/CommodityDetail';
 //import WeChatTest from '../components/WeChatTest';
-//import Videos from '../components/Videos';
+import Movie from '../components/Movie';
 
 /** 登陆页*/
 import SignIn from '../components/SignIn';
@@ -249,7 +249,7 @@ class Application extends Component {
             <Route name="home" component={Home} title="首页"
                    tabItem={{icon: assets.home, title: '首页', default: true}}
                    hideNavBar={true}/>
-            <Route name="publish" component={Publish} title="发布"
+            <Route name="publish" component={Movie} title="发布"
                    tabItem={{icon: assets.publish, title: '发布', }}
                    hideNavBar={hideNavBar}/>
             <Route name="message" component={Message} title="消息"
