@@ -29,8 +29,9 @@ const styles = StyleSheet.create({
     flexDirection: 'row'
   },
   portrait: {
-    height: 50,
-    width: 50
+    margin: 5,
+    height: 40,
+    width: 40
   },
   imagesContainer: {
     flex: 185
@@ -42,19 +43,13 @@ const styles = StyleSheet.create({
     width: 100,
     height: 100,
   },
-  textSummary: {
-    flex: 100
-  },
-  op: {
-    flex: 50
-  },
   font: {
     paddingHorizontal: 5,
-    paddingVertical: 2,
+    paddingVertical: 3,
     fontSize: 12
   },
   price: {
-    fontSize: 20,
+    fontSize: 16,
     color: "red",
     backgroundColor: '#f3f2f3'
   }
@@ -107,11 +102,11 @@ export default class CommoditySummary extends Component {
           </ScrollView>
         </View>
         <Text style={styles.font}>
-          {data.summary}
+          {data.summary.length < 60 ? data.summary : data.summary.substr(0, 57) + '...'}
         </Text>
         <View style={{flexDirection: 'row', borderTopWidth: 1, borderColor: '#f3f2f3', paddingVertical: 3, paddingHorizontal: 10}}>
           <View style={{flex: 1, alignItems: 'flex-start'}}>
-            <TouchableOpacity onPress={this.props.actions.routes.commodityDetail()}>
+            <TouchableOpacity onPress={this.props.actions.routes.commodityDetail(data.id)}>
               <Text style={styles.font}>详细信息</Text>
             </TouchableOpacity>
           </View>

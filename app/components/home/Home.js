@@ -8,10 +8,10 @@ import React from 'react-native';
 
 import Banner from '../../baseComponents/Banner';
 import HomeHeader from './Header';
-import CommoditySummary from './CommoditySummary';
+import CommoditySummary from './../commodity/CommoditySummary';
 
-const { Component, View, StyleSheet, Platform, ScrollView } = React;
-
+const { Component, View, StyleSheet, Platform } = React;
+import RefreshableListView from 'react-native-refreshable-listview';
 
 const mockData_banner = [
   {
@@ -34,6 +34,7 @@ const mockData_banner = [
 
 const mockData_commoditySummary = [
   {
+    id: '1',
     portrait: require('../../../assets/portrait.jpg'),
     thumbs: [
       require('../../../assets/sampleImage/img1.jpg'),
@@ -44,9 +45,10 @@ const mockData_commoditySummary = [
     publisher: '张三',
     publish_time: '2016-1-2',
     price: '410',
-    summary: '酷冷至尊（CoolerMaster） 烈焰枪 红轴 游戏机械键盘 台湾制造 优良血统 紧凑布局'
+    summary: '酷冷至尊（CoolerMaster） 烈焰枪 红轴 游戏机械键盘 台湾制造 优良血统 紧凑布局;酷冷至尊（CoolerMaster） 烈焰枪 红轴 游戏机械键盘 台湾制造 优良血统 紧凑布局'
   },
   {
+    id: '2',
     portrait: require('../../../assets/portrait.jpg'),
     thumbs: [
       require('../../../assets/sampleImage/img1.jpg'),
@@ -60,6 +62,7 @@ const mockData_commoditySummary = [
     summary: '苏泊尔（SUPOR）32cm二代火红点不粘无油烟炒锅炒菜锅明火电磁炉通'
   },
   {
+    id: '3',
     portrait: require('../../../assets/portrait.jpg'),
     thumbs: [
       require('../../../assets/sampleImage/img1.jpg'),
@@ -73,6 +76,7 @@ const mockData_commoditySummary = [
     summary: '双立人锅具刀具12件套装 铸铁炖锅 煎锅蒸锅炊具 不锈钢色 锅具套装'
   },
   {
+    id: '4',
     portrait: require('../../../assets/portrait.jpg'),
     thumbs: [
       require('../../../assets/sampleImage/img1.jpg'),
@@ -87,26 +91,17 @@ const mockData_commoditySummary = [
   }
 ];
 
+const ds = new RefreshableListView.DataSource({rowHasChanged: (r1, r2) => r1.id !== r2.id})
+
 const styles = StyleSheet.create(
   {
     page: {
       flex: 1,
-      backgroundColor: '#dbdee1'
+      backgroundColor: '#f3f2f3'
     },
     header: {
       backgroundColor: '#ffda44'
-    },
-    badge: {
-      borderRadius: 5,
-      borderWidth: 0,
-      width: 10,
-      height: 10,
-      backgroundColor: '#dd2b37',
-      position: 'absolute',
-      top: 0,
-      right: 0
-    },
-    button: {flex: 1, marginBottom: 0, borderWidth: 0}
+    }
   }
 );
 
@@ -120,7 +115,9 @@ export default class Home extends Component {
   // 构造
   constructor(props) {
     super(props);
-    this.state = {};
+    this.state = {
+      dataSource: ds.cloneWithRows(mockData_commoditySummary)
+    };
   }
 
   // 渲染
@@ -134,18 +131,26 @@ export default class Home extends Component {
           {...this.props}
         />
         <View style={{flex: 1, marginHorizontal: 3}}>
-          <ScrollView
-            directionalLockEnabled={true}
-            automaticallyAdjustContentInsets={false}
-          >
-            <CommoditySummary data={mockData_commoditySummary[0]} actions = {this.props.actions}/>
-            <CommoditySummary data={mockData_commoditySummary[1]} actions = {this.props.actions}/>
-            <CommoditySummary data={mockData_commoditySummary[2]} actions = {this.props.actions}/>
-            <CommoditySummary data={mockData_commoditySummary[3]} actions = {this.props.actions}/>
-          </ScrollView>
+          <RefreshableListView
+            dataSource={this.state.dataSource}
+            renderRow={this.renderCommodity.bind(this)}
+            loadData={this.reloadCommodity.bind(this)}
+            //refreshDescription="更新商品"
+          />
         </View>
       </View>
     );
   }
 
+  renderCommodity(data, index) {
+    return (
+      <CommoditySummary key={index} data={data} actions = {this.props.actions}/>
+    );
+  }
+
+  reloadCommodity() {
+    this.setState({
+      dataSource: ds.cloneWithRows(mockData_commoditySummary)
+    });
+  }
 }

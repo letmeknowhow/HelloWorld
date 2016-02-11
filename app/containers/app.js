@@ -19,7 +19,7 @@ import Publish from '../components/Publish';
 import Message from '../components/Message';
 import Mine from '../components/Mine';
 
-import CommodityDetail from '../components/CommodityDetail';
+import CommodityDetail from '../components/commodity/CommodityDetail';
 //import WeChatTest from '../components/WeChatTest';
 import Movie from '../components/Movie';
 

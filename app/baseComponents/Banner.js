@@ -33,7 +33,6 @@ class Banner extends Component {
   }
 
   componentWillReceiveProps(next) {
-    console.log('componentWillReceiveProps--banner');
     if(next.source && next.source.length > 0) {
       this.setState({
         dataSource: dataSource.cloneWithPages(next.source),

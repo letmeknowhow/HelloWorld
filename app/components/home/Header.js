@@ -19,7 +19,7 @@ const styles = StyleSheet.create({
   }
 });
 
-class Header extends Component {
+export default class Header extends Component {
   static propTypes = {};
   
   static defaultProps = {};
@@ -46,4 +46,3 @@ class Header extends Component {
   }
 }
 
-export default Header;

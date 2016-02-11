@@ -81,10 +81,10 @@ class NavBarBase extends Component {
         backIconHidden = {this.props.router.routes.length < 2}
         actionName = {'帮助'}
         statusBar={statusBar(this.props)}
-        barTintColor={'#39444F'}
-        actionTextColor={'white'}
-        titleTextColor={'white'}
-        tintColor={'white'}
+        barTintColor={'#f3f2f3'}
+        actionTextColor={'black'}
+        titleTextColor={'black'}
+        tintColor={'black'}
         title={title(this.props)}
         />
     );
