@@ -7,9 +7,12 @@
 import React from 'react-native';
 
 const { Component, View, Text, StyleSheet, Image, TouchableOpacity } = React;
+import CustomActionSheet from 'react-native-custom-action-sheet';
 const message = require('../../../assets/icons/message.png');
 const zan = require('../../../assets/icons/zan.png');
 const share = require('../../../assets/icons/share.png');
+const wechat = require('../../../assets/share/wechat.png');
+const timeline = require('../../../assets/share/timeline.png');
 
 const styles = StyleSheet.create({
   page: {
@@ -27,6 +30,23 @@ const styles = StyleSheet.create({
     width: 20,
     height: 20,
     resizeMode: 'stretch'
+  },
+  img_share: {
+    width: 50,
+    height: 50,
+    margin: 5,
+    resizeMode: 'stretch'
+  },
+  actionSheetView: {
+    backgroundColor: 'white',
+    borderBottomColor: '#f3f2f3',
+    borderBottomWidth: 1,
+    flexDirection: 'row',
+    padding: 10
+  },
+  apps: {
+    alignItems: 'center',
+    justifyContent: 'center'
   }
 });
 
@@ -37,12 +57,36 @@ export default class Footer extends Component {
 
   constructor(props) {
     super(props);
-    this.state = {};
+    this.state = {
+      modalVisible: false
+    };
+  }
+
+  toggleModal() {
+    this.setState({
+      modalVisible: !this.state.modalVisible
+    });
   }
 
   render() {
     return (
       <View style={[styles.container, this.props.style]}>
+        <CustomActionSheet
+          modalVisible={this.state.modalVisible}
+          onCancel={this.toggleModal.bind(this)}
+          buttonText="取消"
+        >
+          <View style={styles.actionSheetView}>
+            <TouchableOpacity style={styles.apps}>
+              <Image style={styles.img_share} source={wechat} />
+              <Text>微信</Text>
+            </TouchableOpacity>
+            <TouchableOpacity style={styles.apps}>
+              <Image style={styles.img_share} source={timeline} />
+              <Text>朋友圈</Text>
+            </TouchableOpacity>
+          </View>
+        </CustomActionSheet>
         <View style={[styles.container, {flex: 3}]}>
           <TouchableOpacity>
             <Image style={styles.img} source={message} />
@@ -50,7 +94,7 @@ export default class Footer extends Component {
           <TouchableOpacity>
             <Image style={styles.img} source={zan} />
           </TouchableOpacity>
-          <TouchableOpacity>
+          <TouchableOpacity onPress={this.toggleModal.bind(this)}>
             <Image style={styles.img} source={share} />
           </TouchableOpacity>
         </View>

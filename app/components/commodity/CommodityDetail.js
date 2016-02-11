@@ -130,8 +130,7 @@ export default class CommodityDetail extends Component {
     if(ind) {
       ind -= 1;
       this.setState({
-        detail: mockData_commoditySummary[ind],
-        publisher: mockData_commoditySummary[ind].publisher
+        detail: mockData_commoditySummary[ind]
       });
     }
   }
@@ -150,7 +149,7 @@ export default class CommodityDetail extends Component {
               <View style={styles.footer}>
                 <Image style={styles.portrait} source={data.portrait} />
                 <View style={{width: 100, justifyContent: 'center'}}>
-                  <Text style={styles.font}>{this.state.publisher}</Text>
+                  <Text style={styles.font}>{data.publisher}</Text>
                   <Text style={styles.font}>{data.publish_time}</Text>
                 </View>
                 <View style={{flex: 1, alignItems: 'flex-end', justifyContent: 'center'}}>
