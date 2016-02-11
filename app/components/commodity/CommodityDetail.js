@@ -167,7 +167,7 @@ export default class CommodityDetail extends Component {
               </View>
             </ScrollView>
           </View>
-          <Footer style={{height: 40}} />
+          <Footer style={{height: 40}} data={{thumbImage: data.thumbs[0], type: 'image',imageUrl: '../../../assets/sampleImage/img1.jpg'}} />
         </View>
       );
     } else {

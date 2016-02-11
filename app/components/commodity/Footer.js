@@ -8,6 +8,8 @@ import React from 'react-native';
 
 const { Component, View, Text, StyleSheet, Image, TouchableOpacity } = React;
 import CustomActionSheet from 'react-native-custom-action-sheet';
+const WeChat = require('react-native-wechat');
+
 const message = require('../../../assets/icons/message.png');
 const zan = require('../../../assets/icons/zan.png');
 const share = require('../../../assets/icons/share.png');
@@ -49,7 +51,8 @@ const styles = StyleSheet.create({
     justifyContent: 'center'
   }
 });
-
+//注册微信API
+WeChat.registerApp('1234567');
 export default class Footer extends Component {
   static propTypes = {};
 
@@ -77,11 +80,11 @@ export default class Footer extends Component {
           buttonText="取消"
         >
           <View style={styles.actionSheetView}>
-            <TouchableOpacity style={styles.apps}>
+            <TouchableOpacity style={styles.apps} onPress={this._openWXApp.bind(this)}>
               <Image style={styles.img_share} source={wechat} />
               <Text>微信</Text>
             </TouchableOpacity>
-            <TouchableOpacity style={styles.apps}>
+            <TouchableOpacity style={styles.apps} onPress={this._openTimelineApp.bind(this)}>
               <Image style={styles.img_share} source={timeline} />
               <Text>朋友圈</Text>
             </TouchableOpacity>
@@ -105,5 +108,19 @@ export default class Footer extends Component {
         </View>
       </View>
     );
+  }
+
+  async _openTimelineApp() {
+    await WeChat.openWXApp();
+    //await WeChat.shareToTimeline();
+  }
+
+  async _openWXApp() {
+    //const isWXInstalled = await WeChat.isWXAppInstalled();
+    //if(isWXInstalled) {
+    //  await WeChat.shareToTimeline(this.props.data);
+    //}
+    await WeChat.openWXApp();
+    //await WeChat.shareToSession(this.props.data);
   }
 }
