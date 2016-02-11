@@ -65,6 +65,37 @@ const mockData_commoditySummary = [
   }
 ];
 
+const mockData_message = [
+  {
+    id: '0',
+    portrait: require('../../../assets/portrait.jpg'),
+    publisher: '赵六',
+    publish_time: '2016-2-2',
+    message: '哪儿买的?有发票吗'
+  },
+  {
+    id: '1',
+    portrait: require('../../../assets/portrait.jpg'),
+    publisher: '赵四',
+    publish_time: '2016-2-2',
+    message: '这么便宜,我要不是有同款的,我就买了'
+  },
+  {
+    id: '2',
+    portrait: require('../../../assets/portrait.jpg'),
+    publisher: '王五',
+    publish_time: '2016-2-2',
+    message: '有点灰,但是键盘是好的'
+  },
+  {
+    id: '3',
+    portrait: require('../../../assets/portrait.jpg'),
+    publisher: '张三',
+    publish_time: '2016-2-2',
+    message: '有无丑轴,连击,暗病啥的'
+  },
+];
+
 const { Component, View, Text, StyleSheet, Image, ScrollView, Dimensions } = React;
 import Footer from './Footer';
 const width = Dimensions.get('window').width;
@@ -145,7 +176,7 @@ export default class CommodityDetail extends Component {
       return (
         <View style={{flex: 1}}>
           <View style={styles.container}>
-            <ScrollView style={{flex: 1}}>
+            <ScrollView>
               <View style={styles.footer}>
                 <Image style={styles.portrait} source={data.portrait} />
                 <View style={{width: 100, justifyContent: 'center'}}>
@@ -165,6 +196,7 @@ export default class CommodityDetail extends Component {
               <View style={{width: width - 10}}>
                 {imgs}
               </View>
+              {this._renderMessages()}
             </ScrollView>
           </View>
           <Footer style={{height: 40}} data={{thumbImage: data.thumbs[0], type: 'image',imageUrl: '../../../assets/sampleImage/img1.jpg'}} />
@@ -173,6 +205,35 @@ export default class CommodityDetail extends Component {
     } else {
       return (
         <Text style={styles.contentText}>无信息</Text>
+      );
+    }
+  }
+
+  _renderMessages() {
+    const messages = mockData_message.map((item, index) => {
+      return (
+        <View key={index} style={{flexDirection: 'row', paddingVertical: 10, borderTopWidth: 1, borderColor: '#f3f2f3'}}>
+          <View style={{width: 35}}>
+            <Image style={{width: 30, height: 30}} source={item.portrait} />
+          </View>
+          <View style={{flex: 1}}>
+            <Text style={styles.font}>{item.publisher}</Text>
+            <Text style={styles.font}>{item.message}</Text>
+          </View>
+          <View style={{width: 100, alignItems: 'flex-end'}}>
+            <Text style={styles.font}>{item.publish_time}</Text>
+          </View>
+        </View>
+      );
+    });
+    if(mockData_message.length > 0) {
+      return (
+        <View>
+          <View style={{height: 8, backgroundColor: '#f3f2f3', marginTop: 7}} />
+          <View>
+            {messages}
+          </View>
+        </View>
       );
     }
   }
