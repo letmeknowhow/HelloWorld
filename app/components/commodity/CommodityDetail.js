@@ -104,6 +104,7 @@ const mockData_zan = [
 
 const myPortrait = require('../../../assets/portrait1.png');
 import React from 'react-native';
+const moment = require('moment');
 const { Component, View, Text, StyleSheet, Image, ScrollView, Dimensions, TextInput } = React;
 import KeyboardSpacer from './KeyboardSpacer';
 import Footer from './Footer';
@@ -225,7 +226,11 @@ export default class CommodityDetail extends Component {
             <TextInput ref={(ref => this.messageInput = ref)}
                style={{height: 45, fontSize: 16, borderColor: '#f3f2f3', borderWidth: 1}}
                multiline={true}
-               placeholder={'输入文字信息'}/>
+               returnKeyType="send"
+               blurOnSubmit={true}
+               placeholder={'输入文字信息'}
+               onSubmitEditing={this.handleSubmitMessage.bind(this)}
+            />
           </KeyboardSpacer>
         </View>
       );
@@ -295,6 +300,20 @@ export default class CommodityDetail extends Component {
       arr.push(myPortrait);
     }
     this.hasZan = !this.hasZan;
+    this.setState({
+      zan: arr
+    });
+  }
+
+  handleSubmitMessage(event) {
+    let arr = this.state.message;
+    arr.push({
+      id: '0',
+      portrait: myPortrait,
+      publisher: '我',
+      publish_time: moment().format('YYYY-MM-DD'),
+      message: event.nativeEvent.text
+    });
     this.setState({
       zan: arr
     });

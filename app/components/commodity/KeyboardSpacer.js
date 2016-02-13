@@ -90,10 +90,10 @@ export default class KeyboardSpacer extends React.Component {
   render() {
     let offsetHeight = 0;
     if(!this.state.isKeyboardOpened) {
-      offsetHeight = -100;
+      offsetHeight = -500;
     }
     return (
-        <View style={[{height: 45, left: 0, right: 0, bottom: this.state.keyboardSpace + offsetHeight}, this.props.style]}>
+        <View style={[{left: 0, right: 0, bottom: this.state.keyboardSpace + offsetHeight}, this.props.style]}>
           {this.props.children}
         </View>
       );
