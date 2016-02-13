@@ -4,8 +4,6 @@
  *  Date: 16/2/5.
  *  Description: 商品详情
  */
-import React from 'react-native';
-
 const mockData_commoditySummary = [
   {
     id: '1',
@@ -105,10 +103,12 @@ const mockData_zan = [
 ];
 
 const myPortrait = require('../../../assets/portrait1.png');
-
-const { Component, View, Text, StyleSheet, Image, ScrollView, Dimensions } = React;
+import React from 'react-native';
+const { Component, View, Text, StyleSheet, Image, ScrollView, Dimensions, TextInput } = React;
+import KeyboardSpacer from './KeyboardSpacer';
 import Footer from './Footer';
 const width = Dimensions.get('window').width;
+const height = Dimensions.get('window').height;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -206,7 +206,7 @@ export default class CommodityDetail extends Component {
               <Text style={[styles.font, {marginVertical: 10}]}>
                 {data.summary}
               </Text>
-              <View style={{width: width - 10}}>
+              <View style={{width: width - 10, marginBottom: 10}}>
                 {imgs}
               </View>
               {this._renderZan()}
@@ -221,6 +221,12 @@ export default class CommodityDetail extends Component {
             handleMessage={this._handleMessage.bind(this)}
             handleZan={this._handleZan.bind(this)}
           />
+          <KeyboardSpacer style={{backgroundColor: '#FFF', position: 'absolute'}}>
+            <TextInput ref={(ref => this.messageInput = ref)}
+               style={{height: 45, fontSize: 16, borderColor: '#f3f2f3', borderWidth: 1}}
+               multiline={true}
+               placeholder={'输入文字信息'}/>
+          </KeyboardSpacer>
         </View>
       );
     } else {
@@ -239,7 +245,7 @@ export default class CommodityDetail extends Component {
     if(this.state.zan.length > 0) {
       return (
         <View>
-          <View style={{height: 8, backgroundColor: '#f3f2f3', marginTop: 7}} />
+          <View style={{height: 8, backgroundColor: '#f3f2f3'}} />
           <View style={{flex: 1, flexDirection: 'row', alignItems: 'center', paddingVertical: 3}}>
             {zans}
           </View>
@@ -278,7 +284,7 @@ export default class CommodityDetail extends Component {
   }
 
   _handleMessage() {
-
+    this.messageInput.focus();
   }
 
   _handleZan() {
