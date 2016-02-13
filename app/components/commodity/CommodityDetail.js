@@ -315,7 +315,7 @@ export default class CommodityDetail extends Component {
       message: event.nativeEvent.text
     });
     this.setState({
-      zan: arr
+      message: arr
     });
   }
 }
