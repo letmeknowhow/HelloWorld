@@ -12,6 +12,7 @@ const WeChat = require('react-native-wechat');
 
 const message = require('../../../assets/icons/message.png');
 const zan = require('../../../assets/icons/zan.png');
+const zan_select = require('../../../assets/icons/zan1.png');
 const share = require('../../../assets/icons/share.png');
 const wechat = require('../../../assets/share/wechat.png');
 const timeline = require('../../../assets/share/timeline.png');
@@ -29,8 +30,8 @@ const styles = StyleSheet.create({
     justifyContent: 'space-around'
   },
   img: {
-    width: 20,
-    height: 20,
+    width: 25,
+    height: 25,
     resizeMode: 'stretch'
   },
   img_share: {
@@ -61,13 +62,35 @@ export default class Footer extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      modalVisible: false
+      modalVisible: false,
+      data: null,
+      message: null,
+      zan: {
+        mine: false,
+        count: 0
+      }
     };
   }
 
   toggleModal() {
     this.setState({
       modalVisible: !this.state.modalVisible
+    });
+  }
+
+  componentDidMount() {
+    this.setState({
+      data: this.props.data,
+      message: this.props.message,
+      zan: this.props.zan
+    });
+  }
+
+  componentWillReceiveProps(next) {
+    this.setState({
+      data: next.data,
+      message: next.message,
+      zan: next.zan
     });
   }
 
@@ -81,24 +104,26 @@ export default class Footer extends Component {
         >
           <View style={styles.actionSheetView}>
             <TouchableOpacity style={styles.apps} onPress={this._openWXApp.bind(this)}>
-              <Image style={styles.img_share} source={wechat} />
+              <Image style={styles.img_share} source={wechat}/>
               <Text>微信</Text>
             </TouchableOpacity>
             <TouchableOpacity style={styles.apps} onPress={this._openTimelineApp.bind(this)}>
-              <Image style={styles.img_share} source={timeline} />
+              <Image style={styles.img_share} source={timeline}/>
               <Text>朋友圈</Text>
             </TouchableOpacity>
           </View>
         </CustomActionSheet>
-        <View style={[styles.container, {flex: 3}]}>
-          <TouchableOpacity>
-            <Image style={styles.img} source={message} />
+        <View style={[styles.container, {height: 40, flex: 3, borderTopWidth: 1, borderColor: '#f3f2f3'}]}>
+          <TouchableOpacity style={{flexDirection: 'row', alignItems: 'center'}} onPress={this.props.handleMessage}>
+            <Image style={styles.img} source={message}/>
+            <Text>{this.state.message}</Text>
           </TouchableOpacity>
-          <TouchableOpacity>
-            <Image style={styles.img} source={zan} />
+          <TouchableOpacity style={{flexDirection: 'row', alignItems: 'center'}} onPress={this.props.handleZan}>
+            <Image style={styles.img} source={this.state.zan.mine ? zan_select : zan}/>
+            <Text>{this.state.zan.count}</Text>
           </TouchableOpacity>
           <TouchableOpacity onPress={this.toggleModal.bind(this)}>
-            <Image style={styles.img} source={share} />
+            <Image style={styles.img} source={share}/>
           </TouchableOpacity>
         </View>
         <View style={[{flex: 1, height: 40, alignItems: 'center', justifyContent: 'center', backgroundColor: 'red'}]}>
@@ -111,16 +136,18 @@ export default class Footer extends Component {
   }
 
   async _openTimelineApp() {
-    await WeChat.openWXApp();
-    //await WeChat.shareToTimeline();
+    const shareData = {
+      type: 'text',
+      description: '分享测试'
+    };
+    await WeChat.shareToTimeline(shareData);
   }
 
   async _openWXApp() {
-    //const isWXInstalled = await WeChat.isWXAppInstalled();
-    //if(isWXInstalled) {
-    //  await WeChat.shareToTimeline(this.props.data);
-    //}
-    await WeChat.openWXApp();
-    //await WeChat.shareToSession(this.props.data);
+    const shareData = {
+      type: 'text',
+      description: '分享测试'
+    };
+    await WeChat.shareToSession(shareData);
   }
 }

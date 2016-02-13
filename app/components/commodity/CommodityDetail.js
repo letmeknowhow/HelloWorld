@@ -96,6 +96,16 @@ const mockData_message = [
   },
 ];
 
+const mockData_zan = [
+  require('../../../assets/portrait.jpg'),
+  require('../../../assets/portrait.jpg'),
+  require('../../../assets/portrait.jpg'),
+  require('../../../assets/portrait.jpg'),
+  require('../../../assets/portrait.jpg'),
+];
+
+const myPortrait = require('../../../assets/portrait1.png');
+
 const { Component, View, Text, StyleSheet, Image, ScrollView, Dimensions } = React;
 import Footer from './Footer';
 const width = Dimensions.get('window').width;
@@ -150,9 +160,12 @@ export default class CommodityDetail extends Component {
   // 构造
   constructor(props) {
     super(props);
+    this.hasZan = false;
     // 初始状态
     this.state = {
-      detail: null
+      detail: null,
+      zan: mockData_zan,
+      message: mockData_message
     };
   }
 
@@ -196,10 +209,18 @@ export default class CommodityDetail extends Component {
               <View style={{width: width - 10}}>
                 {imgs}
               </View>
+              {this._renderZan()}
               {this._renderMessages()}
             </ScrollView>
           </View>
-          <Footer style={{height: 40}} data={{thumbImage: data.thumbs[0], type: 'image',imageUrl: '../../../assets/sampleImage/img1.jpg'}} />
+          <Footer
+            style={{height: 40}}
+            data={data}
+            message={this.state.message.length}
+            zan={{count: this.state.zan.length, mine: this.hasZan}}
+            handleMessage={this._handleMessage.bind(this)}
+            handleZan={this._handleZan.bind(this)}
+          />
         </View>
       );
     } else {
@@ -209,8 +230,26 @@ export default class CommodityDetail extends Component {
     }
   }
 
+  _renderZan() {
+    const zans = this.state.zan.map((item, index) => {
+      return (
+        <Image key={index} style={{width: 30, height: 30, marginHorizontal: 3}} source={item} />
+      );
+    });
+    if(this.state.zan.length > 0) {
+      return (
+        <View>
+          <View style={{height: 8, backgroundColor: '#f3f2f3', marginTop: 7}} />
+          <View style={{flex: 1, flexDirection: 'row', alignItems: 'center', paddingVertical: 3}}>
+            {zans}
+          </View>
+        </View>
+      );
+    }
+  }
+
   _renderMessages() {
-    const messages = mockData_message.map((item, index) => {
+    const messages = this.state.message.map((item, index) => {
       return (
         <View key={index} style={{flexDirection: 'row', paddingVertical: 10, borderTopWidth: 1, borderColor: '#f3f2f3'}}>
           <View style={{width: 35}}>
@@ -226,15 +265,32 @@ export default class CommodityDetail extends Component {
         </View>
       );
     });
-    if(mockData_message.length > 0) {
+    if(this.state.message.length > 0) {
       return (
         <View>
-          <View style={{height: 8, backgroundColor: '#f3f2f3', marginTop: 7}} />
+          <View style={{height: 8, backgroundColor: '#f3f2f3'}} />
           <View>
             {messages}
           </View>
         </View>
       );
     }
+  }
+
+  _handleMessage() {
+
+  }
+
+  _handleZan() {
+    let arr = this.state.zan;
+    if(this.hasZan) {
+      arr.pop();
+    } else {
+      arr.push(myPortrait);
+    }
+    this.hasZan = !this.hasZan;
+    this.setState({
+      zan: arr
+    });
   }
 }
