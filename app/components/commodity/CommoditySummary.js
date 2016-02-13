@@ -7,6 +7,8 @@
 import React from 'react-native';
 
 const { Component, View, Text, StyleSheet, Image, ScrollView, TouchableOpacity, Alert } = React;
+const message = require('../../../assets/icons/message.png');
+const zan = require('../../../assets/icons/zan.png');
 const portrait = require('../../../assets/portrait.jpg');
 let THUMBS = [
     require('../../../assets/sampleImage/img1.jpg'),
@@ -52,7 +54,12 @@ const styles = StyleSheet.create({
     fontSize: 16,
     color: "red",
     backgroundColor: '#f3f2f3'
-  }
+  },
+  img_icon: {
+    width: 25,
+    height: 25,
+    resizeMode: 'stretch'
+  },
 });
 
 export default class CommoditySummary extends Component {
@@ -111,11 +118,17 @@ export default class CommoditySummary extends Component {
             </TouchableOpacity>
           </View>
           <View style={{flex: 1, flexDirection: 'row', justifyContent: 'flex-end'}}>
-            <TouchableOpacity onPress={this.leaveMessage.bind(this)}>
-              <Text style={styles.font}>留言</Text>
+            <TouchableOpacity
+              style={{flexDirection: 'row', alignItems: 'center', marginHorizontal: 10}}
+              onPress={this.leaveMessage.bind(this)}>
+              <Image style={styles.img_icon} source={message}/>
+              <Text>{data.message}</Text>
             </TouchableOpacity>
-            <TouchableOpacity onPress={this.zan.bind(this)}>
-              <Text style={styles.font}>赞</Text>
+            <TouchableOpacity
+              style={{flexDirection: 'row', alignItems: 'center', marginHorizontal: 10}}
+              onPress={this.zan.bind(this)}>
+              <Image style={styles.img_icon} source={zan}/>
+              <Text>{data.zan}</Text>
             </TouchableOpacity>
           </View>
         </View>

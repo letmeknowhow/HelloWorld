@@ -122,8 +122,9 @@ export default class Footer extends Component {
             <Image style={styles.img} source={this.state.zan.mine ? zan_select : zan}/>
             <Text>{this.state.zan.count}</Text>
           </TouchableOpacity>
-          <TouchableOpacity onPress={this.toggleModal.bind(this)}>
+          <TouchableOpacity style={{flexDirection: 'row', alignItems: 'center'}} onPress={this.toggleModal.bind(this)}>
             <Image style={styles.img} source={share}/>
+            <Text style={{fontSize: 12}}>分享</Text>
           </TouchableOpacity>
         </View>
         <View style={[{flex: 1, height: 40, alignItems: 'center', justifyContent: 'center', backgroundColor: 'red'}]}>

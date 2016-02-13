@@ -45,6 +45,8 @@ const mockData_commoditySummary = [
     publisher: '张三',
     publish_time: '2016-1-2',
     price: '410',
+    message: 4,
+    zan: 5,
     summary: '酷冷至尊（CoolerMaster） 烈焰枪 红轴 游戏机械键盘 台湾制造 优良血统 紧凑布局;酷冷至尊（CoolerMaster） 烈焰枪 红轴 游戏机械键盘 台湾制造 优良血统 紧凑布局'
   },
   {
@@ -59,6 +61,8 @@ const mockData_commoditySummary = [
     publisher: '李四',
     publish_time: '2015-11-2',
     price: '900',
+    message: 2,
+    zan: 8,
     summary: '苏泊尔（SUPOR）32cm二代火红点不粘无油烟炒锅炒菜锅明火电磁炉通'
   },
   {
@@ -73,6 +77,8 @@ const mockData_commoditySummary = [
     publisher: '王五',
     publish_time: '2016-1-5',
     price: '50',
+    message: 1,
+    zan: 1,
     summary: '双立人锅具刀具12件套装 铸铁炖锅 煎锅蒸锅炊具 不锈钢色 锅具套装'
   },
   {
@@ -87,6 +93,8 @@ const mockData_commoditySummary = [
     publisher: '赵六',
     publish_time: '2016-2-2',
     price: '110',
+    message: 8,
+    zan: 8,
     summary: '中兴 Blade A1(C880A) 16G 灵动白 全网通'
   }
 ];
