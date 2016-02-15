@@ -251,8 +251,13 @@ export default class CommodityDetail extends Component {
       return (
         <View>
           <View style={{height: 8, backgroundColor: '#f3f2f3'}} />
-          <View style={{flex: 1, flexDirection: 'row', alignItems: 'center', paddingVertical: 3}}>
-            {zans}
+          <View style={{flex: 1, flexDirection: 'row', alignItems: 'center'}}>
+            <View style={{flex: 1, flexDirection: 'row', paddingVertical: 3}}>
+              {zans}
+            </View>
+            <View style={{width: 60, alignItems: 'flex-end'}}>
+              <Text style={{fontSize: 12, color: '#3FB0CA'}}>{`共${this.state.zan.length}个赞`}</Text>
+            </View>
           </View>
         </View>
       );
