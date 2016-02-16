@@ -9,6 +9,8 @@ import React from 'react-native';
 import Banner from '../../baseComponents/Banner';
 import HomeHeader from './Header';
 import CommoditySummary from './../commodity/CommoditySummary';
+import SideMenu from 'react-native-side-menu';
+import MenuContent from './ConfigMenu';
 
 const { Component, View, StyleSheet, Platform } = React;
 import RefreshableListView from 'react-native-refreshable-listview';
@@ -124,29 +126,38 @@ export default class Home extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      dataSource: ds.cloneWithRows(mockData_commoditySummary)
+      dataSource: ds.cloneWithRows(mockData_commoditySummary),
+      isOpen: false,
     };
   }
 
   // 渲染
   render() {
     return (
-      <View style={styles.page}>
-        <HomeHeader style={[styles.header, {height: Platform.OS === 'ios' ? 60 : 40}]} />
-        <Banner
-          style={{height: 140, overflow: 'hidden', marginBottom: 10}}
-          source={mockData_banner}
-          {...this.props}
-        />
-        <View style={{flex: 1, marginHorizontal: 3}}>
-          <RefreshableListView
-            dataSource={this.state.dataSource}
-            renderRow={this.renderCommodity.bind(this)}
-            loadData={this.reloadCommodity.bind(this)}
-            //refreshDescription="更新商品"
+      <SideMenu
+        menu={<MenuContent />}
+        isOpen={this.state.isOpen}
+        menuPosition="left"
+        onChange={(isOpen) => this.updateMenuState(isOpen)}>
+        <View style={styles.page}>
+          <HomeHeader style={[styles.header, {height: Platform.OS === 'ios' ? 60 : 40}]}
+                      handleConfigMenu={this.toggle.bind(this)}
           />
+          <Banner
+            style={{height: 140, overflow: 'hidden', marginBottom: 10}}
+            source={mockData_banner}
+            {...this.props}
+          />
+          <View style={{flex: 1, marginHorizontal: 3}}>
+            <RefreshableListView
+              dataSource={this.state.dataSource}
+              renderRow={this.renderCommodity.bind(this)}
+              loadData={this.reloadCommodity.bind(this)}
+              //refreshDescription="更新商品"
+            />
+          </View>
         </View>
-      </View>
+      </SideMenu>
     );
   }
 
@@ -160,5 +171,15 @@ export default class Home extends Component {
     this.setState({
       dataSource: ds.cloneWithRows(mockData_commoditySummary)
     });
+  }
+
+  toggle() {
+    this.setState({
+      isOpen: !this.state.isOpen,
+    });
+  }
+
+  updateMenuState(isOpen) {
+    this.setState({ isOpen, });
   }
 }

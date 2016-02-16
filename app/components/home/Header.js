@@ -7,7 +7,7 @@
 import React from 'react-native';
 const {StyleSheet, Text, View, Component, TouchableOpacity, Image } = React;
 const category = require('../../../assets/icons/category.png');
-
+const myPortrait = require('../../../assets/portrait1.png')
 const styles = StyleSheet.create({
   page: {
     flex: 1
@@ -16,7 +16,12 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     flexDirection: 'row',
     justifyContent: 'center'
-  }
+  },
+  portrait: {
+    margin: 5,
+    height: 20,
+    width: 20
+  },
 });
 
 export default class Header extends Component {
@@ -32,11 +37,15 @@ export default class Header extends Component {
   render() {
     return (
       <View style={[this.props.style, styles.container]}>
-        <View key="1" style={[styles.page, {paddingTop: 15}]} />
-        <View key="2" style={[styles.page, {paddingTop: 15, alignItems: 'center', justifyContent: 'center'}]}>
+        <View style={[styles.page, {paddingTop: 15}]} >
+          <TouchableOpacity onPress={this.props.handleConfigMenu}>
+            <Image style={styles.portrait} source={myPortrait} />
+          </TouchableOpacity>
+        </View>
+        <View style={[styles.page, {paddingTop: 15, alignItems: 'center', justifyContent: 'center'}]}>
           <Text style={{fontSize: 25, color: '#000', fontWeight: 'bold'}}>乐趣</Text>
         </View>
-        <View key="3" style={[styles.page, {paddingTop: 15, paddingRight: 10, alignItems: 'flex-end', justifyContent: 'flex-end'}]}>
+        <View style={[styles.page, {paddingTop: 15, paddingRight: 10, alignItems: 'flex-end', justifyContent: 'flex-end'}]}>
           <TouchableOpacity>
             <Image source={category} />
           </TouchableOpacity>
