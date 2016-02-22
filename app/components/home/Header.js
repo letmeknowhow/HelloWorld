@@ -20,7 +20,8 @@ const styles = StyleSheet.create({
   portrait: {
     margin: 5,
     height: 20,
-    width: 20
+    width: 20,
+    borderRadius: 10,
   },
 });
 
@@ -46,7 +47,7 @@ export default class Header extends Component {
           <Text style={{fontSize: 25, color: '#000', fontWeight: 'bold'}}>乐趣</Text>
         </View>
         <View style={[styles.page, {paddingTop: 15, paddingRight: 10, alignItems: 'flex-end', justifyContent: 'flex-end'}]}>
-          <TouchableOpacity>
+          <TouchableOpacity onPress={this.props.actions.routes.category()}>
             <Image source={category} />
           </TouchableOpacity>
         </View>

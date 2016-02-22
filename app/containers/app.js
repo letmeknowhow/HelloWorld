@@ -23,6 +23,9 @@ import CommodityDetail from '../components/commodity/CommodityDetail';
 //import WeChatTest from '../components/WeChatTest';
 import Movie from '../components/Movie';
 
+import Category from '../components/Category';
+import SearchList from '../components/SearchList';
+
 /** 登陆页*/
 import SignIn from '../components/SignIn';
 import SignInGesture from '../components/SignInGesture';
@@ -242,6 +245,12 @@ class Application extends Component {
                  hideFooter={true}/>
 
           <Route name="commodityDetail" component={CommodityDetail} title="详情"
+                 hideNavBar={hideNavBar}
+                 hideFooter={true}/>
+          <Route name="category" component={Category} title="分类"
+                 hideNavBar={hideNavBar}
+                 hideFooter={true}/>
+          <Route name="searchList" component={SearchList} title="列表"
                  hideNavBar={hideNavBar}
                  hideFooter={true}/>
 

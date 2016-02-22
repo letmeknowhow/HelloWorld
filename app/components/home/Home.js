@@ -142,6 +142,7 @@ export default class Home extends Component {
         <View style={styles.page}>
           <HomeHeader style={[styles.header, {height: Platform.OS === 'ios' ? 60 : 40}]}
                       handleConfigMenu={this.toggle.bind(this)}
+                      actions={this.props.actions}
           />
           <Banner
             style={{height: 140, overflow: 'hidden', marginBottom: 10}}
