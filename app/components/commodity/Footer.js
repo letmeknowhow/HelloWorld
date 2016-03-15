@@ -6,9 +6,11 @@
  */
 import React from 'react-native';
 
-const { Component, View, Text, StyleSheet, Image, TouchableOpacity } = React;
+const { Component, View, Text, StyleSheet, Image, TouchableOpacity, Modal } = React;
 import CustomActionSheet from 'react-native-custom-action-sheet';
-const WeChat = require('react-native-wechat');
+import * as WeChat from 'react-native-wechat';
+import fs from 'react-native-fs';
+var resolveAssetSource = require('resolveAssetSource');
 
 const message = require('../../../assets/icons/message.png');
 const zan = require('../../../assets/icons/zan.png');
@@ -50,7 +52,17 @@ const styles = StyleSheet.create({
   apps: {
     alignItems: 'center',
     justifyContent: 'center'
-  }
+  },
+  modal: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    width: 300,
+    height: 140,
+    borderRadius: 4,
+    shadowColor: 'black',
+    shadowOffset: {width: 5, height: 5},
+    marginBottom: 0,
+  },
 });
 //注册微信API
 WeChat.registerApp('1234567');
@@ -68,7 +80,8 @@ export default class Footer extends Component {
       zan: {
         mine: false,
         count: 0
-      }
+      },
+      modalVisible: false
     };
   }
 
@@ -132,16 +145,55 @@ export default class Footer extends Component {
             <Text style={{color: 'white', fontSize: 16}}>我想要</Text>
           </TouchableOpacity>
         </View>
+        <Modal
+          animated={true}
+          transparent={true}
+          visible={this.state.modalVisible}>
+          <View style={{flex: 1, backgroundColor: 'rgba(0, 0, 0, 0.5)'}}>
+            <View style={{borderRadius: 10, alignItems: 'center', backgroundColor: '#fff', padding: 20}}>
+              <Text>{this.state.exception}</Text>
+              <TouchableOpacity onPress={this._setModalVisible.bind(this, false)}>
+                <Text>Close</Text>
+              </TouchableOpacity>
+            </View>
+          </View>
+        </Modal>
       </View>
     );
   }
 
+  _setModalVisible(visible) {
+    this.setState({modalVisible: visible});
+  }
+
   async _openTimelineApp() {
+    //const shareData = {
+    //  type: 'text',
+    //  description: '分享测试'
+    //};
+    var imageResource = require('../../../assets/banner/2.png');
+
     const shareData = {
-      type: 'text',
-      description: '分享测试'
+      type: 'imageFile',
+      title: 'image file download from network',
+      description: 'share image file to time line',
+      mediaTagName: 'email signature',
+      messageAction: undefined,
+      messageExt: undefined,
+      imageUrl: resolveAssetSource(imageResource).uri
     };
-    await WeChat.shareToTimeline(shareData);
+
+    try {
+      var result = await  await WeChat.shareToTimeline(shareData);
+      console.log('share text message to time line successful', result);
+    }
+    catch (e) {
+      console.log('share text message to time line failed', e);
+      this.setState({
+        exception: e,
+        modalVisible: true
+      });
+    }
   }
 
   async _openWXApp() {
