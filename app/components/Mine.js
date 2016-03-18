@@ -41,7 +41,7 @@ const styles = StyleSheet.create({
   },
   cardHead: {
     height: 45,
-    borderBottomColor: '#e4e4e4 ',
+    borderBottomColor: '#e4e4e4',
     borderBottomWidth: 1,
   },
   cardBody: {

@@ -321,14 +321,14 @@ class ModalBox extends React.Component {
       };
       this.setState({isAnimateOpen: true});
     }
-  }
+  };
 
   close = () => {
     if (this.props.isDisabled) return;
     if (!this.state.isAnimateClose && (this.state.isOpen || this.state.isAnimateOpen)) {
       this.animateClose();
     }
-  }
+  };
 
 
 }
