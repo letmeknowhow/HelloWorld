@@ -168,7 +168,7 @@ class Application extends Component {
             self.setState({
               syncMessage: '正在安装.'
             });
-            this.refs.downloadBox.close()
+            this.refs.downloadBox.close();
             break;
           case CodePush.SyncStatus.UP_TO_DATE:
             self.setState({
@@ -247,7 +247,7 @@ class Application extends Component {
           <Route name="commodityDetail" component={CommodityDetail} title="详情"
                  hideNavBar={hideNavBar}
                  hideFooter={true}/>
-          <Route name="category" component={Category} title="分类"
+          <Route name="category" component={Category} title="类别"
                  hideNavBar={hideNavBar}
                  hideFooter={true}/>
           <Route name="searchList" component={SearchList} title="列表"

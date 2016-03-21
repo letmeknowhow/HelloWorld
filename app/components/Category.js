@@ -4,7 +4,7 @@
  *  Date: 16/2/18.
  *  Description:
  */
-const mockData = [
+const MockData = [
   {name: '手机', icon: require('../../assets/icons/IndustryNews.png')},
   {name: '相机/摄像机', icon: require('../../assets/icons/RankingList.png')},
   {name: '电脑及配件', icon: require('../../assets/icons/MyPerformance.png')},
@@ -28,11 +28,13 @@ const mockData = [
   {name: '交通工具', icon: require('../../assets/icons/IndustryNews.png')},
   {name: '珠宝首饰', icon: require('../../assets/icons/RankingList.png')},
   {name: '艺术品', icon: require('../../assets/icons/MyPerformance.png')},
+  {name: '', icon: null},
 ];
 import React from 'react-native';
-import Grid from '../baseComponents/Grid';
 import Button from '../baseComponents/Button';
-const { Component, View, Text, StyleSheet, Image } = React;
+import GridView from 'react-native-grid-view';
+const { Component, View, Text, StyleSheet, Image, InteractionManager, Dimensions } = React;
+const width = Dimensions.get('window').width;
 const styles = StyleSheet.create(
   {
     badge: {
@@ -45,7 +47,14 @@ const styles = StyleSheet.create(
       top: 0,
       right: 0
     },
-    button: {flex: 1, marginBottom: 0, borderWidth: 0}
+    button: {
+      borderRadius: 0,
+      flex: 1,
+      margin: 1,
+      borderWidth: 0,
+      backgroundColor: '#fff',
+      height: width / 3 - 2 * 3
+    }
   }
 );
 export default class Category extends Component {
@@ -59,30 +68,57 @@ export default class Category extends Component {
   constructor(props) {
     super(props);
     // 初始状态
-    this.state = {};
+    this.state = {
+      dataSource: null,
+      loaded: false
+    };
   }
 
-  gridData() {
-    const { actions } = this.props;
-    return mockData.map(item => {
-      return (
-        <Button style={styles.button} onPress={actions.routes.searchList()}>
-          <Image source={item.icon}>
-            { item.badge && (<View style={styles.badge}/>) }
-          </Image>
-          <Text style={{marginTop: 10}}>
-            {item.name}
-          </Text>
-        </Button>
-      );
+  componentDidMount() {
+    InteractionManager.runAfterInteractions(() => {
+      this.setState({
+        dataSource: MockData,
+        loaded: true
+      });
     });
   }
 
   // 渲染
   render() {
+    if(!this.state.loaded) {
+      return this.renderLoadingView();
+    }
     return (
-      <View style={{flex: 1}}>
-        <Grid style={{flex: 1}} column={3} gridLine={true} gridData={this.gridData()} cellHeight={100}  />
+      <View style={{flex: 1, backgroundColor: '#f3f2f3'}}>
+        <GridView
+          items={this.state.dataSource}
+          itemsPerRow={3}
+          renderItem={this.renderItem.bind(this)}
+        />
+      </View>
+    );
+  }
+
+  renderItem(item) {
+    const { actions } = this.props;
+    return (
+      <Button key={item.name} style={styles.button} onPress={actions.routes.searchList()}>
+        <Image source={item.icon}>
+          { item.badge && (<View style={styles.badge}/>) }
+        </Image>
+        <Text style={{marginTop: 10}}>
+          {item.name}
+        </Text>
+      </Button>
+    );
+  }
+
+  renderLoadingView() {
+    return (
+      <View>
+        <Text>
+          Loading...
+        </Text>
       </View>
     );
   }

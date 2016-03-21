@@ -4,7 +4,7 @@
  *  Date: 16/2/18.
  *  Description:
  */
-const mockData = [
+const MockData = [
   {name: '手机', icon: require('../../assets/sampleImage/img1.jpg')},
   {name: '相机/摄像机', icon: require('../../assets/sampleImage/img2.jpg')},
   {name: '电脑及配件', icon: require('../../assets/sampleImage/img3.jpg')},
@@ -26,25 +26,24 @@ const mockData = [
 ];
 import React from 'react-native';
 
-const { Component, View, Text, Image, StyleSheet } = React;
-import Grid from '../baseComponents/Grid';
+const { Component, View, Text, Image, StyleSheet, InteractionManager, Dimensions } = React;
+import GridView from 'react-native-grid-view';
 import Button from '../baseComponents/Button';
+const width = Dimensions.get('window').width;
 const styles = StyleSheet.create(
   {
-    badge: {
-      borderRadius: 5,
+    button: {
+      borderRadius: 0,
+      flex: 1,
+      margin: 1,
       borderWidth: 0,
-      width: 10,
-      height: 10,
-      backgroundColor: '#dd2b37',
-      position: 'absolute',
-      top: 0,
-      right: 0
+      backgroundColor: '#fff',
+      height: width / 2 - 2 * 2
     },
-    button: {flex: 1, marginBottom: 0, borderWidth: 0, height: 150},
     img: {
-      width: 100,
-      height: 100,
+      //flex: 1,
+      width: width / 2 - 2 * 2,
+      height: width / 2 - 2 * 2 - 15,
     },
   }
 );
@@ -59,7 +58,19 @@ export default class SearchList extends Component {
   constructor(props) {
     super(props);
     // 初始状态
-    this.state = {};
+    this.state = {
+      dataSource: null,
+      loaded: false
+    };
+  }
+
+  componentDidMount() {
+    InteractionManager.runAfterInteractions(() => {
+      this.setState({
+        dataSource: MockData,
+        loaded: true
+      });
+    });
   }
 
   gridData() {
@@ -77,17 +88,36 @@ export default class SearchList extends Component {
 
   // 渲染
   render() {
+    if(!this.state.loaded) {
+      return this.renderLoadingView();
+    }
     return (
-      <Grid column={2} gridLine={true} gridData={this.gridData()} cellHeight={130} scroll={true} />
+      <GridView
+        style={{backgroundColor: '#f3f2f3'}}
+        items={this.state.dataSource}
+        itemsPerRow={2}
+        renderItem={this.renderItem.bind(this)}
+      />
     );
   }
-}
 
-class Thumb extends Component {
-  render() {
+  renderItem(item) {
     return (
-      <View style={{marginHorizontal: 2}}>
-        <Image style={styles.img} source={this.props.source} />
+      <Button style={styles.button} key={item.name}>
+        <Image style={styles.img} source={item.icon} />
+        <Text style={{marginTop: 5}}>
+          {item.name}
+        </Text>
+      </Button>
+    );
+  }
+
+  renderLoadingView() {
+    return (
+      <View>
+        <Text>
+          Loading...
+        </Text>
       </View>
     );
   }
