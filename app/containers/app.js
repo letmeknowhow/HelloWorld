@@ -22,6 +22,7 @@ import Mine from '../components/Mine';
 import CommodityDetail from '../components/commodity/CommodityDetail';
 //import WeChatTest from '../components/WeChatTest';
 import Movie from '../components/Movie';
+import MyImagePicker from '../components/ImagePicker';
 
 import Category from '../components/Category';
 import SearchList from '../components/SearchList';
@@ -264,7 +265,7 @@ class Application extends Component {
             <Route name="message" component={Message} title="消息"
                    tabItem={{icon: assets.message, title: '消息', }}
                    hideNavBar={hideNavBar}/>
-            <Route name="mine" component={Mine} title="我的"
+            <Route name="mine" component={MyImagePicker} title="我的"
                    tabItem={{icon: assets.mine, title: '我的', }}
                    hideNavBar={hideNavBar}/>
           </TabRoute>

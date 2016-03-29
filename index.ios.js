@@ -1,8 +1,8 @@
 import React from 'react-native';
 import AppContainer from './app/containers/index';
-const { AppRegistry, Platform, StatusBarIOS } = React;
+const { AppRegistry, Platform, StatusBar } = React;
 //noinspection JSCheckFunctionSignatures
 if (Platform.OS === 'ios') {
-  StatusBarIOS.setStyle(0);
+  StatusBar.setBarStyle(0);
 }
 AppRegistry.registerComponent('HelloWorld', () => AppContainer);
