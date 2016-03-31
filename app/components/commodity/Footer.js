@@ -74,7 +74,6 @@ export default class Footer extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      modalVisible: false,
       data: null,
       message: null,
       zan: {

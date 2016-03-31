@@ -141,9 +141,7 @@ export default class Home extends Component {
         onChange={(isOpen) => this.updateMenuState(isOpen)}>
         <View style={styles.page}>
           <HomeHeader style={[styles.header, {height: Platform.OS === 'ios' ? 60 : 40}]}
-                      handleConfigMenu={this.toggle.bind(this)}
-                      actions={this.props.actions}
-          />
+                      handleConfigMenu={this.toggle.bind(this)}/>
           <Banner
             style={{height: 140, overflow: 'hidden', marginBottom: 10}}
             source={mockData_banner}

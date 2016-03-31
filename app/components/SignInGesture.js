@@ -10,6 +10,7 @@ const {
   } = React;
 
 import PasswordGesture from 'react-native-gesture-password';
+var Actions = require('react-native-router-flux').Actions;
 
 let Password1 = '';
 class SignInGesture extends Component {
@@ -20,7 +21,7 @@ class SignInGesture extends Component {
         status: 'right',
         message: 'Password is right, success.'
       });
-      this.props.actions.routes.tabBar.home()();
+      //this.props.actions.routes.tabBar.home()();
       // your codes to close this view
     } else {
       this.setState({

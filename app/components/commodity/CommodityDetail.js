@@ -171,7 +171,7 @@ export default class CommodityDetail extends Component {
   }
 
   componentDidMount() {
-    let ind = parseInt(this.props.routerData.data, 10);
+    let ind = parseInt(this.props.data, 10);
     if(ind) {
       ind -= 1;
       this.setState({

@@ -8,6 +8,7 @@ import React from 'react-native';
 const {StyleSheet, Text, View, Component, TouchableOpacity, Image } = React;
 const category = require('../../../assets/icons/category.png');
 const myPortrait = require('../../../assets/portrait1.png')
+var Actions = require('react-native-router-flux').Actions;
 const styles = StyleSheet.create({
   page: {
     flex: 1
@@ -47,7 +48,7 @@ export default class Header extends Component {
           <Text style={{fontSize: 25, color: '#000', fontWeight: 'bold'}}>乐趣</Text>
         </View>
         <View style={[styles.page, {paddingTop: 15, paddingRight: 10, alignItems: 'flex-end', justifyContent: 'flex-end'}]}>
-          <TouchableOpacity onPress={this.props.actions.routes.category()}>
+          <TouchableOpacity onPress={Actions.category}>
             <Image source={category} />
           </TouchableOpacity>
         </View>

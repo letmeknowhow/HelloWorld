@@ -13,7 +13,7 @@ const {
   View,
   TouchableOpacity
   } = React;
-const WeChat = require('react-native-wechat');
+import WeChat  from 'react-native-wechat';
 WeChat.registerApp('1234567');
 export default class WeChatTest extends React.Component {
   constructor(props) {

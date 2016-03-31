@@ -2,6 +2,7 @@ import React from 'react-native';
 import ViewPager from './pagers/ViewPager';
 import WebAPI from '../libs/WebAPI';
 import global from '../config/global';
+var Actions = require('react-native-router-flux').Actions;
 const { Component, Dimensions, View, Image, TouchableOpacity, InteractionManager } = React;
 
 const deviceWidth = Dimensions.get('window').width;
@@ -43,7 +44,7 @@ class Banner extends Component {
 
   _renderPage(data, pageID) {
     return (
-      <TouchableOpacity onPress={this.props.actions.routes.commodityDetail(data.id)}>
+      <TouchableOpacity onPress={Actions.commodityDetail}>
         <Image
           source={data.url}
           style={{width: deviceWidth, height:140, resizeMode: Image.resizeMode.cover}}/>

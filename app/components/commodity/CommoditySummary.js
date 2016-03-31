@@ -7,6 +7,7 @@
 import React from 'react-native';
 
 const { Component, View, Text, StyleSheet, Image, ScrollView, TouchableOpacity, Alert } = React;
+var Actions = require('react-native-router-flux').Actions;
 const message = require('../../../assets/icons/message.png');
 const zan = require('../../../assets/icons/zan.png');
 const portrait = require('../../../assets/portrait.jpg');
@@ -85,7 +86,7 @@ export default class CommoditySummary extends Component {
   render() {
     const data = this.props.data;
     return (
-      <View style={styles.page} onPress={this.props.actions.routes.commodityDetail()}>
+      <View style={styles.page} onPress={Actions.commodityDetail}>
         <View style={styles.header}>
           <Image style={styles.portrait} source={data.portrait} />
           <View style={{width: 100, justifyContent: 'center'}}>
@@ -98,7 +99,6 @@ export default class CommoditySummary extends Component {
         </View>
         <View style={styles.imagesContainer}>
           <ScrollView
-            directionalLockEnabled={true}
             automaticallyAdjustContentInsets={false}
             showsVerticalScrollIndicator={false}
             showsHorizontalScrollIndicator={false}
@@ -113,7 +113,7 @@ export default class CommoditySummary extends Component {
         </Text>
         <View style={{flexDirection: 'row', borderTopWidth: 1, borderColor: '#f3f2f3', paddingVertical: 3, paddingHorizontal: 10}}>
           <View style={{flex: 1, alignItems: 'flex-start'}}>
-            <TouchableOpacity onPress={this.props.actions.routes.commodityDetail(data.id)}>
+            <TouchableOpacity onPress={() => Actions.commodityDetail({data: data.id})}>
               <Text style={styles.font}>详细信息</Text>
             </TouchableOpacity>
           </View>

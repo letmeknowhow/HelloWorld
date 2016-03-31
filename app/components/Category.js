@@ -35,6 +35,7 @@ import Button from '../baseComponents/Button';
 import GridView from 'react-native-grid-view';
 const { Component, View, Text, StyleSheet, Image, InteractionManager, Dimensions } = React;
 const width = Dimensions.get('window').width;
+var Actions = require('react-native-router-flux').Actions;
 const styles = StyleSheet.create(
   {
     badge: {
@@ -102,7 +103,7 @@ export default class Category extends Component {
   renderItem(item) {
     const { actions } = this.props;
     return (
-      <Button key={item.name} style={styles.button} onPress={actions.routes.searchList()}>
+      <Button key={item.name} style={styles.button} onPress={Actions.searchList}>
         <Image source={item.icon}>
           { item.badge && (<View style={styles.badge}/>) }
         </Image>
