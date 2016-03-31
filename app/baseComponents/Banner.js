@@ -1,5 +1,6 @@
 import React from 'react-native';
-import ViewPager from './pagers/ViewPager';
+//import ViewPager from './pagers/ViewPager';
+import ViewPager from 'react-native-viewpager';
 import WebAPI from '../libs/WebAPI';
 import global from '../config/global';
 var Actions = require('react-native-router-flux').Actions;
